@@ -1,48 +1,27 @@
 import React from 'react'
-import SearchBar from './SearchBar'
-import VideoList from "./VideoList"
-import SelectedVideo from "./SelectedVideo"
-import youtube from '../apis/youtubekey'
+import AppPage from './AppPage'
+import AboutPage from './AboutPage'
+import NavigationBar from './NavigationBar'
+import {BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 
-const YOUTUBE_KEY = 'AIzaSyB54UQo4wm1CZKVWovprJDvZEMKHJmkf9o'
 
 export default class App extends React.Component {
 
-    state = { videos: [], selectedVideo: null }
+    
 
-    onSearchTermSubmit = async term => {
-        const response = await youtube.get('/search', {
-            params: {
-            q: term,
-            part: 'snippet',
-            maxResults: 5,
-            type: 'video',
-            key: YOUTUBE_KEY,
-            },
-        });
 
-        this.setState({videos: response.data.items, selectedVideo: response.data.items[0] });
-    }
-
-    onVideoSelect = (props) => { 
-        this.setState( {selectedVideo: props} )
-    }
-
-    render() {
+    render = () => {
         return (
-            <div className = "ui container">
-                <SearchBar onSearchTermSubmit = {this.onSearchTermSubmit} />
-                    <div className = "ui grid"> 
-                        <div className = "ui row">
-                            <div className = "eleven wide column">
-                                <SelectedVideo video = {this.state.selectedVideo}/>
-                            </div>
+        <>
+            <Router>
+                <NavigationBar/>
+                <Switch>
+                    <Route path = "/" exact component = {AppPage}/>
+                    <Route path = "/about" exact component = {AboutPage}/>
+                </Switch>
+            </Router>
+        </>
 
-                            <div className = "five wide column">
-                                <VideoList onVideoSelect = {this.onVideoSelect} videos={this.state.videos}/>
-                            </div>
-                        </div>
-                    </div>
-            </div>);
+        )
     }
 }
