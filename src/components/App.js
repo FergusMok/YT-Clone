@@ -4,17 +4,24 @@ import VideoList from "./VideoList"
 import SelectedVideo from "./SelectedVideo"
 import youtube from '../apis/youtubekey'
 
+const YOUTUBE_KEY = 'AIzaSyB54UQo4wm1CZKVWovprJDvZEMKHJmkf9o'
 
 export default class App extends React.Component {
 
     state = { videos: [], selectedVideo: null }
-   onSearchTermSubmit = async term => {
-       const response = await youtube.get('/search', {
-           params: {
-               q: term
-           }
-       });
-       this.setState({videos: response.data.items, selectedVideo: response.data.items[0] });
+
+    onSearchTermSubmit = async term => {
+        const response = await youtube.get('/search', {
+            params: {
+            q: term,
+            part: 'snippet',
+            maxResults: 5,
+            type: 'video',
+            key: YOUTUBE_KEY,
+            },
+        });
+
+        this.setState({videos: response.data.items, selectedVideo: response.data.items[0] });
     }
 
     onVideoSelect = (props) => { 
