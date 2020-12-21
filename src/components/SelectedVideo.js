@@ -1,22 +1,25 @@
 import React from 'react'
+import {useSelector} from 'react-redux'
 
 
-const SelectedVideo = (props) => {
-    if (!props.video) {
+const SelectedVideo = () => {
+
+    const selectedVideo = useSelector( state => state.selectedVideoState ) 
+
+    if (!selectedVideo) {
         return <div></div>
     } else {
-        const videoSrc = `https://www.youtube.com/embed/${props.video.id.videoId}`
+        const videoSrc = `https://www.youtube.com/embed/${selectedVideo.id.videoId}`
         return (
         <div>
             <div className = "ui embed">
                 <iframe title = "video player" src = {videoSrc}/>
             </div>
-
             <div className = "ui segment">
                 <h3 className = "ui header">
-                    {props.video.snippet.title}
+                    {selectedVideo.snippet.title}
                 </h3>
-            <p>{props.video.snippet.description}</p>
+            <p>{selectedVideo.snippet.description}</p>
             </div>
         
         </div>

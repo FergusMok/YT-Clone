@@ -1,17 +1,17 @@
-import React, { Component } from 'react'
-import {Link} from 'react-router-dom';
+import React from 'react'
+import { Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux'
+import { selectApp, selectAbout }  from "../redux/NavigationBar"
 
-
-export default class NavigationBar extends Component {
+const NavigationBar = () => {
+    const activated = useSelector(state => state.navBarState)
+    const dispatch = useDispatch();
     
-    state = { activated: "App" }
-    render = () => {
-    
-        const AppStr = this.state.activated === "App" ? " active" : "" 
-        const AboutStr = this.state.activated === "About" ? " active" : "" 
-
-        return <div className ="ui sticky secondary pointing menu">
-                <div onClick = {() => this.setState({activated: "App"})}>
+    const AppStr = activated === "App" ? " active" : ""
+    const AboutStr = activated === "About" ? " active" : "" 
+    return (
+        <div className ="ui sticky secondary pointing menu">
+                <div onClick = {() => dispatch(selectApp())}>
                     <Link to ='/' >
                     <p className = {`item${AppStr}`}>
                         Application
@@ -19,7 +19,7 @@ export default class NavigationBar extends Component {
                     </Link>
                 </div>
 
-                <div onClick = {() => this.setState({activated: "About"})}>
+                <div onClick = {() => dispatch(selectAbout())}>
                     <Link to = 'about'>
                     <p className ={`item${AboutStr}`}>
                         About Page
@@ -27,5 +27,7 @@ export default class NavigationBar extends Component {
                     </Link>
                 </div>
         </div>
-    }
+    );
 }
+
+export default NavigationBar 

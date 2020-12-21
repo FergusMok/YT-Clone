@@ -1,11 +1,15 @@
 import React from 'react';
 import VideoItem from './VideoItem'
+import {useSelector} from 'react-redux'
 
-const VideoList = ({videos, onVideoSelect}) => {
+
+const VideoList = () => {
+
+    const videos = useSelector( state => state.videosState )
+    
     const renderedList = videos.map( video => {
         return (
             <VideoItem 
-            onVideoSelect = {onVideoSelect} 
             key = {video.etag} video = {video}
             />
         );
